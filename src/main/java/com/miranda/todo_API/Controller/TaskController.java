@@ -1,7 +1,7 @@
 package com.miranda.todo_API.Controller;
 
 import com.miranda.todo_API.DTO.TaskRequestDTO;
-import com.miranda.todo_API.Entity.TaskEntity;
+import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.Service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +20,10 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskEntity> addTask(@RequestBody TaskRequestDTO dto ) {
-        TaskEntity novaTask = taskService.criarTask(dto);
+    public ResponseEntity<TaskResponseDTO> addTask(@RequestBody TaskRequestDTO dto)
+    {
+        TaskResponseDTO novaTask = taskService.criarTask(dto);
+        //TaskEntity novaTask = taskService.criarTask(dto);
 
         return ResponseEntity.ok(novaTask);
         //return new ResponseEntity<>(task, HttpStatus.OK);

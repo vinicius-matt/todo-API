@@ -1,6 +1,7 @@
 package com.miranda.todo_API.DTO;
 
 import com.miranda.todo_API.model.TaskStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
+@Schema(hidden = true)
 public class TaskRequestDTO {
 
     @NotBlank(message = "Titulo é Obrigatório")

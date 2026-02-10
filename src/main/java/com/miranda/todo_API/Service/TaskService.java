@@ -1,6 +1,7 @@
 package com.miranda.todo_API.Service;
 
 import com.miranda.todo_API.DTO.TaskRequestDTO;
+import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.Entity.TaskEntity;
 import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.model.TaskStatus;
@@ -17,10 +18,10 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public TaskEntity criarTask(TaskRequestDTO dto){
+    public TaskResponseDTO criarTask(TaskRequestDTO dto) {
 
-        if(dto.getDataVencimento() != null &&
-                dto.getDataVencimento().isBefore(LocalDate.now())){
+        if (dto.getDataVencimento() != null &&
+                dto.getDataVencimento().isBefore(LocalDate.now())) {
 
             throw new IllegalArgumentException(
                     "Data de vencimento não pode ser no passado!"
@@ -34,6 +35,9 @@ public class TaskService {
         task.setDueDate(dto.getDataVencimento());
         task.setStatus(TaskStatus.PENDENTE);
 
-        return taskRepository.save(task);
+        TaskEntity saved = taskRepository.save(task);
+
+        return TaskResponseDTO.fromEntity(saved);
     }
+
 }
