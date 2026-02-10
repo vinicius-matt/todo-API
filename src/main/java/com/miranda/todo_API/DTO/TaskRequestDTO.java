@@ -1,5 +1,9 @@
 package com.miranda.todo_API.DTO;
 
+import com.miranda.todo_API.model.TaskStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +19,16 @@ public class TaskRequestDTO {
     @NotBlank(message = "Titulo é Obrigatório")
     private String titulo;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status;
+
+    @Column(nullable = false)
     private String descricao;
 
+    @Column(nullable = false)
     private LocalDate dataVencimento;
 
+    @Column(nullable = false)
     private LocalDate dataCriacao;
-
 }

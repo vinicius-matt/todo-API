@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "tasks")
-public class taskEntity {
+@Table(name = "tarefa")
+public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +26,10 @@ public class taskEntity {
     @Column(nullable = false)
     private TaskStatus status;
 
-    private LocalDate dataVencimento;
+    private LocalDate dueDate;
 
-    private LocalDate dataCriacao;
+    private LocalDate createdAt;
 
-    public taskEntity() {}
+    public TaskEntity() {}
 }
 
