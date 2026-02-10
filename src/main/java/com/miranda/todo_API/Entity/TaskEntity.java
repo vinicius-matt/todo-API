@@ -1,5 +1,6 @@
 package com.miranda.todo_API.Entity;
 
+import com.miranda.todo_API.model.TaskPriority;
 import com.miranda.todo_API.model.TaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -31,6 +32,8 @@ public class TaskEntity {
     private LocalDate dueDate;
 
     private LocalDate createdAt;
+
+    private TaskPriority priority;
 
     public TaskEntity() {}
 }

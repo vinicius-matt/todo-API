@@ -1,8 +1,8 @@
 package com.miranda.todo_API.DTO;
 
 import com.miranda.todo_API.Entity.TaskEntity;
+import com.miranda.todo_API.model.TaskPriority;
 import com.miranda.todo_API.model.TaskStatus;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +14,13 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(hidden = true)
 public class TaskResponseDTO {
 
     private Long id;
     private String title;
     private String description;
     private TaskStatus status;
+    private TaskPriority priority;
     private LocalDate dueDate;
     private LocalDate createdAt;
 
@@ -33,6 +33,7 @@ public class TaskResponseDTO {
         dto.setDescription(entity.getDescription());
         dto.setStatus(entity.getStatus());
         dto.setDueDate(entity.getDueDate());
+        dto.setPriority(entity.getPriority());
         dto.setCreatedAt(entity.getCreatedAt());
 
         return dto;

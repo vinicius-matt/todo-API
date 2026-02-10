@@ -1,5 +1,6 @@
 package com.miranda.todo_API.DTO;
 
+import com.miranda.todo_API.model.TaskPriority;
 import com.miranda.todo_API.model.TaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -24,6 +25,8 @@ public class TaskRequestDTO {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskStatus status;
+
+    private TaskPriority priority;
 
     @Column(nullable = false)
     private String descricao;

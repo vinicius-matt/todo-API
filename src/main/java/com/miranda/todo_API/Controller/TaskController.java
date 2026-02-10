@@ -2,21 +2,24 @@ package com.miranda.todo_API.Controller;
 
 import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
+import com.miranda.todo_API.DTO.TaskUpdateDTO;
+import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.Service.TaskService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Task")
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskRepository taskRepository;
 
-    public TaskController( TaskService taskService ) {
+    public TaskController(TaskService taskService, TaskRepository taskRepository) {
         this.taskService = taskService;
+        this.taskRepository = taskRepository;
     }
 
     @PostMapping
@@ -28,4 +31,21 @@ public class TaskController {
         return ResponseEntity.ok(novaTask);
         //return new ResponseEntity<>(task, HttpStatus.OK);
     }
+
+    @GetMapping("/tasks")
+    public ResponseEntity<List<TaskResponseDTO>> getAllTasks()
+    {
+       List<TaskResponseDTO> tasks = taskService.getTasks();
+       return ResponseEntity.ok(tasks);
+    }
+
+    @PatchMapping("/{id}")
+        public ResponseEntity<TaskResponseDTO> updateTask(
+                @PathVariable Long id,
+                @RequestBody TaskUpdateDTO dto){
+
+            TaskResponseDTO taskAtualizada = taskService.updateTask(id, dto);
+
+            return ResponseEntity.ok(taskAtualizada);
+        }
 }
