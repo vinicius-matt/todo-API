@@ -48,4 +48,14 @@ public class TaskController {
 
             return ResponseEntity.ok(taskAtualizada);
         }
+
+     @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long id){
+
+        //TaskResponseDTO deletaTask = taskService.deleteTask(id);
+
+         String msg = taskService.deleteTask(id);
+
+        return ResponseEntity.ok(msg);
+     }
 }

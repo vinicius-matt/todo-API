@@ -23,8 +23,8 @@ public class TaskService {
 
     public TaskResponseDTO criarTask(TaskRequestDTO dto) {
 
-        if (dto.getDataVencimento() != null &&
-                dto.getDataVencimento().isBefore(LocalDate.now())) {
+        if (dto.getDueDate() != null &&
+                dto.getDueDate().isBefore(LocalDate.now())) {
 
             throw new IllegalArgumentException(
                     "Data de vencimento não pode ser no passado!"
@@ -33,11 +33,12 @@ public class TaskService {
 
         TaskEntity task = new TaskEntity();
         task.setTitle(dto.getTitulo());
-        task.setDescription(dto.getDescricao());
+        task.setDescription(dto.getDescription());
         task.setCreatedAt(LocalDate.now());
-        task.setPriority(TaskPriority.BAIXA);
-        task.setDueDate(dto.getDataVencimento());
-        task.setStatus(TaskStatus.PENDENTE);
+        task.setDueDate(dto.getDueDate());
+
+        task.setPriority(TaskPriority.None);
+        task.setStatus(TaskStatus.None);
 
         TaskEntity saved = taskRepository.save(task);
 
@@ -73,6 +74,14 @@ public class TaskService {
         TaskEntity updateTask = taskRepository.save(task);
 
         return TaskResponseDTO.fromEntity(updateTask);
+    }
+
+    public String deleteTask(Long id) {
+        if (!taskRepository.existsById(id)) {
+            throw new RuntimeException("Task não encontrada");
+        }
+        taskRepository.deleteById(id);
+        return "Task deletada com sucesso!";
     }
 }
 

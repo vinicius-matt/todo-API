@@ -29,11 +29,11 @@ public class TaskRequestDTO {
     private TaskPriority priority;
 
     @Column(nullable = false)
-    private String descricao;
+    private String description;
 
     @Column(nullable = false)
-    private LocalDate dataVencimento;
+    private LocalDate dueDate;
 
     @Column(nullable = false)
-    private LocalDate dataCriacao;
+    private LocalDate createdAt;
 }

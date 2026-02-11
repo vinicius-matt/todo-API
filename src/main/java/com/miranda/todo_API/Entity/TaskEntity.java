@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Schema(hidden = true)
+
 @Entity
 @Getter
 @Setter
