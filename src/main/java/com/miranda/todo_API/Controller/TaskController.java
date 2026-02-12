@@ -4,6 +4,7 @@ import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.DTO.TaskUpdateDTO;
 import com.miranda.todo_API.Service.TaskService;
+import com.miranda.todo_API.model.TaskStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,13 @@ public class TaskController {
     }
 
     @GetMapping("/status")
+    public ResponseEntity<List<TaskResponseDTO>> getAllStatus(
+            @PathVariable TaskStatus status
+    )
+    {
+        List<TaskResponseDTO> task = taskService.getTaskByStatus(status);
+        return ResponseEntity.ok(task);
+    }
 
 
     @PatchMapping("/{id}")
