@@ -46,6 +46,9 @@ public class TaskService {
     }
 
     public List<TaskResponseDTO> getTasks() {
+
+        UpdateOverdueTasks();
+
         return taskRepository.findAll()
                 .stream()
                 .map(TaskResponseDTO::fromEntity)
@@ -82,6 +85,22 @@ public class TaskService {
         }
         taskRepository.deleteById(id);
         return "Task deletada com sucesso!";
+    }
+
+    public void UpdateOverdueTasks(){
+
+        List<TaskEntity> tasks = taskRepository.findAll();
+
+        for (TaskEntity task : tasks) {
+
+            if (task.getDueDate()  != null && task.getDueDate().isBefore(LocalDate.now()) &&
+            task.getStatus() != TaskStatus.CONCLUIDA) {
+
+                task.setStatus(TaskStatus.VENCIDA);
+                taskRepository.save(task);
+            }
+        }
+
     }
 }
 
