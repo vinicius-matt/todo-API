@@ -4,7 +4,6 @@ import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.DTO.TaskUpdateDTO;
 import com.miranda.todo_API.Service.TaskService;
-import com.miranda.todo_API.model.TaskStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
