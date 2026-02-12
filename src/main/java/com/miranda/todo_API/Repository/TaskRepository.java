@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository <TaskEntity, Long> {
 
-    List<TaskEntity>findbyStatus(TaskStatus status);
+    List<TaskEntity>findByStatus(TaskStatus status);
 }

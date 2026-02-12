@@ -37,11 +37,6 @@ public class TaskController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<List<TaskResponseDTO>> getAllTaskStatus()
-    {
-        System.out.println("Status");
-        return null;
-    }
 
 
     @PatchMapping("/{id}")

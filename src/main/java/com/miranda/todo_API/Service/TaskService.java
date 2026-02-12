@@ -7,6 +7,7 @@ import com.miranda.todo_API.Entity.TaskEntity;
 import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.model.TaskPriority;
 import com.miranda.todo_API.model.TaskStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -50,6 +51,13 @@ public class TaskService {
         UpdateOverdueTasks();
 
         return taskRepository.findAll()
+                .stream()
+                .map(TaskResponseDTO::fromEntity)
+                .toList();
+    }
+
+    public List<TaskResponseDTO>getTaskByStatus(TaskStatus status) {
+        return taskRepository.findByStatus(status)
                 .stream()
                 .map(TaskResponseDTO::fromEntity)
                 .toList();
