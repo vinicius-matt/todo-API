@@ -3,7 +3,6 @@ package com.miranda.todo_API.Controller;
 import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.DTO.TaskUpdateDTO;
-import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.Service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,9 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
-    private final TaskRepository taskRepository;
 
-    public TaskController(TaskService taskService, TaskRepository taskRepository) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
-        this.taskRepository = taskRepository;
     }
 
     @PostMapping
