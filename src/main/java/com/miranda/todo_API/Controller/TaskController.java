@@ -3,6 +3,7 @@ package com.miranda.todo_API.Controller;
 import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.DTO.TaskUpdateDTO;
+import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.Service.TaskService;
 import com.miranda.todo_API.model.TaskStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +16,20 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskRepository taskRepository;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, TaskRepository taskRepository) {
         this.taskService = taskService;
+        this.taskRepository = taskRepository;
     }
 
-    @PostMapping
+    @PostMapping("/criarTask")
     public ResponseEntity<TaskResponseDTO> addTask(@RequestBody TaskRequestDTO dto)
     {
         TaskResponseDTO novaTask = taskService.criarTask(dto);
-        //TaskEntity novaTask = taskService.criarTask(dto);
+        System.out.println("Prioridade recebida: " + dto.getPriority());
 
         return ResponseEntity.ok(novaTask);
-        //return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @GetMapping("/tasks")
@@ -57,13 +59,13 @@ public class TaskController {
             return ResponseEntity.ok(taskAtualizada);
         }
 
-     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+        if (!taskRepository.existsById(id)) {
+            return ResponseEntity.status(404).body("Task não encontrada");
+        }
+        taskRepository.deleteById(id);
+        return ResponseEntity.ok("Task deletada com sucesso!");
+    }
 
-        //TaskResponseDTO deletaTask = taskService.deleteTask(id);
-
-         String msg = taskService.deleteTask(id);
-
-        return ResponseEntity.ok(msg);
-     }
 }

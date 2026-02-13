@@ -33,12 +33,13 @@ public class TaskService {
         }
 
         TaskEntity task = new TaskEntity();
-        task.setTitle(dto.getTitulo());
+        task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
         task.setCreatedAt(LocalDate.now());
         task.setDueDate(dto.getDueDate());
 
-        task.setPriority(TaskPriority.None);
+        task.setPriority(dto.getPriority());
+
         task.setStatus(TaskStatus.None);
 
         TaskEntity saved = taskRepository.save(task);
@@ -92,7 +93,7 @@ public class TaskService {
             throw new RuntimeException("Task não encontrada");
         }
         taskRepository.deleteById(id);
-        return "Task deletada com sucesso!";
+        return ("Task deletada com sucesso!");
     }
 
     public void UpdateOverdueTasks(){

@@ -20,12 +20,13 @@ import java.time.LocalDate;
 public class TaskRequestDTO {
 
     @NotBlank(message = "Titulo é Obrigatório")
-    private String titulo;
+    private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskStatus status;
 
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
     @Column(nullable = false)
