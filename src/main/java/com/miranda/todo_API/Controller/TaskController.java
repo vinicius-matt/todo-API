@@ -24,8 +24,7 @@ public class TaskController {
     }
 
     @PostMapping("/criarTask")
-    public ResponseEntity<TaskResponseDTO> addTask(@RequestBody TaskRequestDTO dto)
-    {
+    public ResponseEntity<TaskResponseDTO> addTask(@RequestBody TaskRequestDTO dto) {
         TaskResponseDTO novaTask = taskService.criarTask(dto);
         System.out.println("Prioridade recebida: " + dto.getPriority());
 
@@ -33,39 +32,37 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<TaskResponseDTO>> getAllTasks()
-    {
-       List<TaskResponseDTO> tasks = taskService.getTasks();
-       return ResponseEntity.ok(tasks);
+    public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
+        List<TaskResponseDTO> tasks = taskService.getTasks();
+        return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/status")
     public ResponseEntity<List<TaskResponseDTO>> getAllStatus(
             @PathVariable TaskStatus status
-    )
-    {
+    ) {
         List<TaskResponseDTO> task = taskService.getTaskByStatus(status);
         return ResponseEntity.ok(task);
     }
 
 
     @PatchMapping("/{id}")
-        public ResponseEntity<TaskResponseDTO> updateTask(
-                @PathVariable Long id,
-                @RequestBody TaskUpdateDTO dto){
+    public ResponseEntity<TaskResponseDTO> updateTask(
+            @PathVariable Long id,
+            @RequestBody TaskUpdateDTO dto) {
 
-            TaskResponseDTO taskAtualizada = taskService.updateTask(id, dto);
+        TaskResponseDTO taskAtualizada = taskService.updateTask(id, dto);
 
-            return ResponseEntity.ok(taskAtualizada);
-        }
+        return ResponseEntity.ok(taskAtualizada);
+    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
-        if (!taskRepository.existsById(id)) {
-            return ResponseEntity.status(404).body("Task não encontrada");
-        }
-        taskRepository.deleteById(id);
-        return ResponseEntity.ok("Task deletada com sucesso!");
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+
+        taskService.deleteTask(id);
+
+        return ResponseEntity.noContent().build();
     }
+
 
 }

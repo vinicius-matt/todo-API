@@ -4,9 +4,11 @@ import com.miranda.todo_API.DTO.TaskRequestDTO;
 import com.miranda.todo_API.DTO.TaskResponseDTO;
 import com.miranda.todo_API.DTO.TaskUpdateDTO;
 import com.miranda.todo_API.Entity.TaskEntity;
+import com.miranda.todo_API.Exception.TaskNotFoundException;
 import com.miranda.todo_API.Repository.TaskRepository;
 import com.miranda.todo_API.model.TaskPriority;
 import com.miranda.todo_API.model.TaskStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository){
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
@@ -57,7 +59,7 @@ public class TaskService {
                 .toList();
     }
 
-    public List<TaskResponseDTO>getTaskByStatus(TaskStatus status) {
+    public List<TaskResponseDTO> getTaskByStatus(TaskStatus status) {
         return taskRepository.findByStatus(status)
                 .stream()
                 .map(TaskResponseDTO::fromEntity)
@@ -65,7 +67,8 @@ public class TaskService {
     }
 
     public TaskResponseDTO updateTask(Long id, TaskUpdateDTO dto) {
-        TaskEntity task = taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Task não encontrada!"));
+        TaskEntity task = taskRepository.findById(id).orElseThrow(()
+                -> new TaskNotFoundException(id));
 
         if (dto.getDescription() != null) {
             task.setDescription(dto.getDescription());
@@ -88,22 +91,22 @@ public class TaskService {
         return TaskResponseDTO.fromEntity(updateTask);
     }
 
-    public String deleteTask(Long id) {
-        if (!taskRepository.existsById(id)) {
-            throw new RuntimeException("Task não encontrada");
-        }
-        taskRepository.deleteById(id);
-        return ("Task deletada com sucesso!");
+    public void deleteTask(Long id) {
+
+        TaskEntity task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+
+        taskRepository.delete(task);
     }
 
-    public void UpdateOverdueTasks(){
+    public void UpdateOverdueTasks() {
 
         List<TaskEntity> tasks = taskRepository.findAll();
 
         for (TaskEntity task : tasks) {
 
-            if (task.getDueDate()  != null && task.getDueDate().isBefore(LocalDate.now()) &&
-            task.getStatus() != TaskStatus.CONCLUIDA) {
+            if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()) &&
+                    task.getStatus() != TaskStatus.CONCLUIDA) {
 
                 task.setStatus(TaskStatus.VENCIDA);
                 taskRepository.save(task);
